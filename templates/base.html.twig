@@ -5,12 +5,55 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body>
+    <div class="p-3 bg-primary text-white fs-5">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+            <div class="d-flex gap-3 align-items-end">
+
+                {% if app.user %}
+                    <h3>Credit Score</h3>
+                    <a href="{{ path('app_dashboard') }}" class="text-white">Dashboard</a>
+                    <a href="{{ path('app_transaction_create') }}" class="text-white">Transaktion erstellen</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="text-white">Login</a>
+                    <a href="{{ path('app_registration') }}" class="text-white">Registrieren</a>
+                {% endif %}
+            </div>
+                <div class="d-flex gap-3">
+
+                    {% if app.user %}
+                        <a href="{{ path('app_logout') }}" class="text-white">Abmelden</a>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h4 class="mt-4">
+            {% block page_title %}{% endblock %}
+        </h4>
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ message | raw }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ message | raw }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+
         {% block body %}{% endblock %}
+    </div>
     </body>
 </html>

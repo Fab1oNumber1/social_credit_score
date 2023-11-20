@@ -1,0 +1,14 @@
+AddHandler application/x-httpd-php82 .php
+
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        RedirectMatch 302 ^/$ /index.php/
+    </IfModule>
+</IfModule>

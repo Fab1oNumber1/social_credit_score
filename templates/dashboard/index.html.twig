@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block body %}
+    <table class="table" style="table-layout: fixed">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Punkte</th>
+            <th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>
+                    {{ user.firstName }} {{ user.lastName }}
+                </td>
+                <td>
+                    {{ score_service.calculate(user) }} Punkte
+                </td>
+                <td>
+                    <a href="{{ path('app_transaction', {'user': user.id}) }}" class="btn btn-info">Ansehen</a>
+                    <a href="{{ path('app_transaction_create', {'user': user.id}) }}" class="btn btn-primary">Transaktion erstellen</a>
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+
+    </table>
+{% endblock %}
