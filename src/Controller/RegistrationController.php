@@ -39,6 +39,7 @@ class RegistrationController extends AbstractController
             $password = $form->get('password_plain')->getData();
             $password_repeat = $form->get('password_repeat')->getData();
 
+
             if ($password_repeat !== $password) {
                 $form->get('password_repeat')->addError(new FormError("Du bisch z behindert"));
             } else {
