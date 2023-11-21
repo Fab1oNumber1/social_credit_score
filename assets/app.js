@@ -7,10 +7,12 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 
-import './styles/app.scss';
-import Webpush from 'webpush-client'
-import $ from 'jquery'
+//import Webpush from 'webpush-client'
+//import 'jquery'
+//import './ext/ReStable/jquery.restable.css'
+//import './ext/ReStable/jquery.restable'
 
+import './styles/app.scss';
 
 /*
 $('.allow-push').on('click', () => {

@@ -3,41 +3,60 @@
 {% block title %}Hello TransactionController!{% endblock %}
 
 {% block body %}
-    <table class="table" style="table-layout: fixed">
-        <thead>
-        <tr>
-            <th>Datum</th>
-            <th>Punkte</th>
-            <th>Status</th>
-            <th>Author</th>
-            <th>Approvers</th>
-            <th>Beschreibung</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for transaction in transactions %}
-            <tr>
-                <td>{{ transaction.created|date }}</td>
-                <td>{{ transaction.value }}</td>
-                <td>{{ transaction.status }}
-                    {% if transaction.status == 'review' %}
-                        {{ transaction.approvers|length }}/{{ score_service.numberOfNeededApprovments }}
-                        {% if score_service.canApprove(app.user, transaction) %}
-                            <a href="{{ path('app_transaction_approve', {'transaction': transaction.id}) }}" class="btn btn-outline-primary">approve</a>
-                        {% else %}
-                            <a href="" class="btn btn-outline-primary disabled">approved</a>
-                        {% endif %}
-                    {% endif %}
-                </td>
-                <td>{{ transaction.author }}</td>
-                <td>
-                    {{ transaction.approvers|join(', ') }}
-                </td>
-                <td>{{ transaction.description }}</td>
-            </tr>
 
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for transaction in transactions %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Datum</th>
+                        <td>{{ transaction.created|date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Punkte</th>
+                        <td>
+                            <span class="{% if transaction.value > 0 %}text-success{% else %}text-danger{% endif %}">
+                            {% if transaction.value > 0 %}
+                            +
+                            {% endif %}
+                            {{ transaction.value }}
+                            </span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th>Beschreibung</th>
+                        <td>
+                            {{ transaction.description|nl2br }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ transaction.status }}
+                            {% if transaction.status == 'review' %}
+                                {{ transaction.approvers|length }}/{{ score_service.numberOfNeededApprovments }}
+                                {% if score_service.canApprove(app.user, transaction) %}
+                                    <a href="{{ path('app_transaction_approve', {'transaction': transaction.id}) }}" class="btn btn-outline-primary">
+                                        <i class="fa-solid fa-check"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="" class="btn btn-outline-success disabled">
+                                        <i class="fa-solid fa-check"></i>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Author (Approvers)</th>
+                        <td>
+                            {{ transaction.author }} ({{ transaction.approvers|join(', ') }})
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+
     <a href="{{ path('app_transaction_create', {'user': user.id}) }}" class="btn btn-primary">Transaktion erstellen</a>
 {% endblock %}

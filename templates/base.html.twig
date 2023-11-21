@@ -24,10 +24,12 @@
             <div class="d-flex justify-content-between">
             <div class="d-flex gap-3 align-items-end">
 
-                <h3 class="mb-0">Social Credit</h3>
+                <a href="{{ path('app_dashboard') }}" class="text-white text-decoration-none"><h3 class="mb-0">Social Credit</h3></a>
                 {% if app.user %}
-                    <a href="{{ path('app_dashboard') }}" class="text-white">Dashboard</a>
-                    <a href="{{ path('app_transaction_create') }}" class="text-white">Transaktion erstellen</a>
+                    <a href="{{ path('app_dashboard') }}" class="text-white">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+                    <!--a href="{{ path('app_transaction_create') }}" class="text-white">Transaktion erstellen</a-->
                 {% else %}
                     <a href="{{ path('app_login') }}" class="text-white">Login</a>
                     <a href="{{ path('app_registration') }}" class="text-white">Registrieren</a>
@@ -36,7 +38,9 @@
                 <div class="d-flex gap-3">
 
                     {% if app.user %}
-                        <a href="{{ path('app_logout') }}" class="text-white">Abmelden</a>
+                        <a href="{{ path('app_logout') }}" class="text-white">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </a>
                     {% else %}
                     {% endif %}
                 </div>
