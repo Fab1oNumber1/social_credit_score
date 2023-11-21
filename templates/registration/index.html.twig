@@ -3,9 +3,14 @@
 {% block title %}Hello RegistrationController!{% endblock %}
 
 {% block body %}
+<div class="card mw-600 mx-auto mt-5">
+    <div class="card-body">
+        <h2 class="text-center">Registrieren</h2>
     {{ form_start(form) }}
 
     {{ form_rest(form) }}
     <button type="submit" class="btn btn-primary">Registrieren</button>
     {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}
