@@ -1,0 +1,3 @@
+{% if user.avatar %}
+<img src="{{ path('app_media', {'media': user.avatar.id}) }}" alt="" class="avatar-badge">
+{% endif %}

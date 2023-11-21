@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil bearbeiten{% endblock %}
+
+{% block body %}
+    <div class="card mw-600 mx-auto mt-5">
+        <div class="card-body">
+            <h2 class="text-center">Profil bearbeiten</h2>
+            {% if app.user.avatar %}
+                <div class="d-flex justify-content-center my-2">
+                    <img style="max-width: 100px;" src="{{ path('app_media', {'media': app.user.avatar.id}) }}" alt="">
+                </div>
+            {% endif %}
+            {{ form_start(form) }}
+
+            {{ form_rest(form) }}
+            <button type="submit" class="btn btn-primary">Speichern</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

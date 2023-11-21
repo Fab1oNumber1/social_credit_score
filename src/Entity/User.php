@@ -46,12 +46,19 @@ class User extends Model implements UserInterface, PasswordAuthenticatedUserInte
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSubscription::class, orphanRemoval: true)]
     private Collection $userSubscriptions;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Media::class)]
+    private Collection $media;
+
+    #[ORM\ManyToOne]
+    private ?Media $avatar = null;
+
     public function __construct()
     {
         parent::__construct();
         $this->transactions = new ArrayCollection();
         $this->createdTransactions = new ArrayCollection();
         $this->userSubscriptions = new ArrayCollection();
+        $this->media = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -239,6 +246,48 @@ class User extends Model implements UserInterface, PasswordAuthenticatedUserInte
                 $userSubscription->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): static
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media->add($medium);
+            $medium->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): static
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getAuthor() === $this) {
+                $medium->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?Media
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Media $avatar): static
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

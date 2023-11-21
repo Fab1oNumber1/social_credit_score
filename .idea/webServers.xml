@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="01a178d8-f439-4fc5-8401-baf807eeab03" name="live">
+        <fileTransfer rootFolder="/home/afi-credit-score.ch/public_html" accessType="SFTP" host="afi-credit-score.jimsoft.ch" port="22" sshConfigId="a4242b4c-0de7-46f4-bebb-c1a698e4f9a2" sshConfig="root@afi-credit-score.jimsoft.ch:22 agent" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

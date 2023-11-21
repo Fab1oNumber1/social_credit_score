@@ -46,6 +46,11 @@ class TransactionController extends AbstractController
             $entityManager->persist($transactionComment);
             $entityManager->flush();
             $this->addFlash("success", "Dini Meinig isch wertvoll für eus");
+
+            $transactionComment = new TransactionComment();
+            $transactionComment->setAuthor($security->getUser());
+            $transactionComment->setTransaction($transaction);
+            $commentForm = $this->createForm(TransactionCommentType::class, $transactionComment);
         }
 
         return $this->render('transaction/view.html.twig', [

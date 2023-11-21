@@ -54,8 +54,9 @@
 
             {% for comment in transaction.transactionComments %}
                 <div class="alert alert-info p-1">
+                    {% include 'profile/_partials/_avatar.html.twig' with {'user': comment.author} %}
                     <strong>{{ comment.author }}</strong><br>
-                    <p>
+                    <p class="mt-1">
                         {{ comment.text | nl2br }}
                     </p>
 
