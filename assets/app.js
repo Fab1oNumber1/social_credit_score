@@ -12,6 +12,7 @@ import Webpush from 'webpush-client'
 import $ from 'jquery'
 
 
+/*
 $('.allow-push').on('click', () => {
     console.log('sheesh')
     Webpush.create({
@@ -32,3 +33,4 @@ $('.allow-push').on('click', () => {
 
     ;
 })
+*/

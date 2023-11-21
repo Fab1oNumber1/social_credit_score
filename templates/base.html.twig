@@ -24,8 +24,8 @@
             <div class="d-flex justify-content-between">
             <div class="d-flex gap-3 align-items-end">
 
+                <h3 class="mb-0">Social Credit</h3>
                 {% if app.user %}
-                    <h3>Credit Score</h3>
                     <a href="{{ path('app_dashboard') }}" class="text-white">Dashboard</a>
                     <a href="{{ path('app_transaction_create') }}" class="text-white">Transaktion erstellen</a>
                 {% else %}
