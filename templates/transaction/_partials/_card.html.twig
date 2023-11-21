@@ -6,6 +6,11 @@
                 <td>{{ transaction.created|date }}</td>
             </tr>
             <tr>
+                <th>Target</th>
+                <td>{{ transaction.user }}</td>
+            </tr>
+            <tr>
+
                 <th>Punkte</th>
                 <td>
                     {% include 'transaction/_partials/_points-badge.html.twig' %}
