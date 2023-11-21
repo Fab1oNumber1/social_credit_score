@@ -38,6 +38,10 @@
                 <div class="d-flex gap-3">
 
                     {% if app.user %}
+                        <a href="{{ path('app_profile') }}" class="text-white">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+
                         <a href="{{ path('app_logout') }}" class="text-white">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </a>
