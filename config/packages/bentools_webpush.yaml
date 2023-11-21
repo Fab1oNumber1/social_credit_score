@@ -1,0 +1,4 @@
+bentools_webpush:
+  settings:
+    public_key: 'BELui_5lwNRZFFa8HvJFAzcQD6ZgUCQp3G7Ryr4wI8uqkRJZhxI-7Momh-C8RXm24xX0CaMiSJ7_QTWrokzfv2w'
+    private_key: 'QOv_61_rGGMSP3FzMiutQBml051fjAraEdALFAMi4UE'

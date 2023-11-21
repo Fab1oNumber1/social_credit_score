@@ -42,11 +42,15 @@ class User extends Model implements UserInterface, PasswordAuthenticatedUserInte
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Transaction::class)]
     private Collection $createdTransactions;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSubscription::class, orphanRemoval: true)]
+    private Collection $userSubscriptions;
+
     public function __construct()
     {
         parent::__construct();
         $this->transactions = new ArrayCollection();
         $this->createdTransactions = new ArrayCollection();
+        $this->userSubscriptions = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -202,6 +206,36 @@ class User extends Model implements UserInterface, PasswordAuthenticatedUserInte
             // set the owning side to null (unless already changed)
             if ($createdTransaction->getAuthor() === $this) {
                 $createdTransaction->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserSubscription>
+     */
+    public function getUserSubscriptions(): Collection
+    {
+        return $this->userSubscriptions;
+    }
+
+    public function addUserSubscription(UserSubscription $userSubscription): static
+    {
+        if (!$this->userSubscriptions->contains($userSubscription)) {
+            $this->userSubscriptions->add($userSubscription);
+            $userSubscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSubscription(UserSubscription $userSubscription): static
+    {
+        if ($this->userSubscriptions->removeElement($userSubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($userSubscription->getUser() === $this) {
+                $userSubscription->setUser(null);
             }
         }
 
