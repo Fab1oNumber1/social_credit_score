@@ -11,7 +11,9 @@ class ScoreService {
     public function calculate(User $user):int {
         $total = 0;
         foreach ($user->getTransactions() as $transaction) {
-            $total += $transaction->getValue();
+            if($transaction->getStatus() === 'approved') {
+                $total += $transaction->getValue();
+            }
         }
         return $total;
     }
