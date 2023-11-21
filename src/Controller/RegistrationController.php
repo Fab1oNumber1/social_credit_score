@@ -42,21 +42,23 @@ class RegistrationController extends AbstractController
             if ($password_repeat !== $password) {
                 $form->get('password_repeat')->addError(new FormError("Du bisch z behindert"));
             } else {
-
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $form->get('password_plain')->getData()
-                    )
-                );
                 $transaction = new Transaction();
                 $transaction->setUser($user);
                 $transaction->setDescription('Startguthaben');
                 $transaction->setValue(500);
                 $transaction->setStatus('approved');
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $password,
+                    )
+                );
+
                 $entityManager->persist($user);
                 $entityManager->persist($transaction);
+
                 $entityManager->flush();
+
 
                 $this->addFlash("success", "Du bsich ez offiziel Teil vom Movement!");
 
