@@ -22,6 +22,7 @@ class ProfileType extends AbstractType
 
                 // unmapped fields can't define their validation using annotations
                 // in the associated entity, so you can use the PHP constraint classes
+                /*
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -33,6 +34,7 @@ class ProfileType extends AbstractType
                         'mimeTypesMessage' => 'Muss es Bild si du Spasst',
                     ])
                 ],
+                */
             ])
         ;
     }
