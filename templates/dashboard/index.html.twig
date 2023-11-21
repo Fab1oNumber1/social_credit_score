@@ -9,6 +9,7 @@
         <tr>
             <th>Name</th>
             <th>Punkte</th>
+            <th>Need Approve</th>
             <th>Aktionen</th>
         </tr>
         </thead>
@@ -20,6 +21,18 @@
                 </td>
                 <td>
                     {{ score_service.calculate(user) }} Punkte
+                </td>
+                <td>
+
+                    {% set needApprovment = user.transactions|filter(t => t.status == 'review')|length %}
+                    {% if needApprovment > 0 %}
+
+                        <strong class="badge bg-danger text-white">
+                            {{ user.transactions|filter(t => t.status == 'review')|length }}
+                        </strong>
+                    {% else %}
+                        -
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{{ path('app_transaction', {'user': user.id}) }}" class="btn btn-info">Ansehen</a>
