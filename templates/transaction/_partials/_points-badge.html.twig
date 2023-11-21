@@ -1,0 +1,6 @@
+<span class="badge bg-{% if transaction.value > 0 %}success{% else %}danger{% endif %} text-white fs-6">
+                            {% if transaction.value > 0 %}
+                                +
+                            {% endif %}
+    {{ transaction.value }}
+                            </span>

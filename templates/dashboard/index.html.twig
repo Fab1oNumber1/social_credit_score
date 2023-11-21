@@ -18,12 +18,14 @@
                     </div>
 
                 </div>
+                <hr>
                 <div class="row">
                     <div class="col-10">
                         {% if notification.type == 'transaction' %}
-                            <div class="text-preview">
+                            <div class="text-preview mb-2">
                                 {{ notification.transaction.description }}
                             </div>
+                            {% include 'transaction/_partials/_points-badge.html.twig' with {'transaction': notification.transaction} %}
                         {% elseif notification.type == 'transaction_comment' %}
                             <div class="text-preview">
                                 {{ notification.transactionComment.text }}

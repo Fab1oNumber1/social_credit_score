@@ -8,12 +8,7 @@
             <tr>
                 <th>Punkte</th>
                 <td>
-                            <span class="badge bg-{% if transaction.value > 0 %}success{% else %}danger{% endif %} text-white fs-6">
-                            {% if transaction.value > 0 %}
-                                +
-                            {% endif %}
-                                {{ transaction.value }}
-                            </span>
+                    {% include 'transaction/_partials/_points-badge.html.twig' %}
                 </td>
 
             </tr>
