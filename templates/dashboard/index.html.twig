@@ -1,9 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Dashboard{% endblock %}
-{% block page_title %}Dashboard{% endblock %}
 
 {% block body %}
+    <h4>Latest niuuws</h4>
+    {% for notification in notification_service.latest %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <em>{{ notification.created|date }}</em>
+                <h5>{{ notification.message }}</h5>
+                <div class="row">
+                    <div class="col-10">
+                        {% if notification.type == 'transaction' %}
+                            <div class="text-preview">
+                                {{ notification.transaction.description }}
+                            </div>
+                        {% elseif notification.type == 'transaction_comment' %}
+                            <div class="text-preview">
+                                {{ notification.transactionComment.text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-2">
+                        {% if notification.type == 'transaction' %}
+                            <a href="{{ path('app_transaction_view', {'transaction': notification.transaction.id}) }}" class="btn btn-primary">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        {% elseif notification.type == 'transaction_comment' %}
+                            <a href="{{ path('app_transaction_view', {'transaction': notification.transactionComment.transaction.id}) }}" class="btn btn-primary">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    {% endfor %}
+    <h4>Mit<em>glied</em>er</h4>
     <table class="table " style="table-layout: fixed">
         <thead>
         <tr>

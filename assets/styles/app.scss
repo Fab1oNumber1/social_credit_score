@@ -18,3 +18,9 @@
   overflow: hidden;
   object-fit: cover;
 }
+
+.text-preview {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

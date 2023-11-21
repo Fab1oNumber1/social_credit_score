@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Transaction;
 use App\Entity\TransactionComment;
 use App\Entity\User;
 use App\Form\TransactionCommentType;
 use App\Form\TransactionType;
 use App\Repository\UserRepository;
+use App\Service\NotificationService;
 use App\Service\ScoreService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +35,7 @@ class TransactionController extends AbstractController
         Security $security,
         Request $request,
         EntityManagerInterface $entityManager,
+        NotificationService $notificationService,
     ): Response
     {
         $transactionComment = new TransactionComment();
@@ -46,6 +49,7 @@ class TransactionController extends AbstractController
             $entityManager->persist($transactionComment);
             $entityManager->flush();
             $this->addFlash("success", "Dini Meinig isch wertvoll für eus");
+            $notificationService->notify($transactionComment);
 
             $transactionComment = new TransactionComment();
             $transactionComment->setAuthor($security->getUser());
@@ -65,6 +69,7 @@ class TransactionController extends AbstractController
         UserRepository $userRepository,
         Security $security,
         ScoreService $scoreService,
+        NotificationService $notificationService,
     ): Response
     {
         $transaction = new Transaction();
@@ -85,6 +90,7 @@ class TransactionController extends AbstractController
             $entityManager->persist($transaction);
             $entityManager->flush();
             $this->addFlash("success", "Transaktion erstellt.");
+            $notificationService->notify($transaction);
             return $this->redirectToRoute('app_transaction', ['user' => $transaction->getUser()->getId()]);
         }
 

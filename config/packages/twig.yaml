@@ -3,6 +3,7 @@ twig:
     form_themes: ['bootstrap_5_layout.html.twig']
     globals:
         score_service: '@App\Service\ScoreService'
+        notification_service: '@App\Service\NotificationService'
 
 
 
