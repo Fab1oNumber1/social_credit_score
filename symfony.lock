@@ -1,4 +1,7 @@
 {
+    "bentools/webpush-bundle": {
+        "version": "0.11"
+    },
     "doctrine/annotations": {
         "version": "2.0",
         "recipe": {
