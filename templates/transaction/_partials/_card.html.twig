@@ -8,7 +8,7 @@
             <tr>
                 <th>Punkte</th>
                 <td>
-                            <span class="{% if transaction.value > 0 %}text-success{% else %}text-danger{% endif %}">
+                            <span class="badge bg-{% if transaction.value > 0 %}success{% else %}danger{% endif %} text-white fs-6">
                             {% if transaction.value > 0 %}
                                 +
                             {% endif %}
@@ -34,9 +34,7 @@
                                 <i class="fa-solid fa-check"></i>
                             </a>
                         {% else %}
-                            <a href="" class="btn btn-outline-success disabled">
-                                <i class="fa-solid fa-check"></i>
-                            </a>
+                                <i class="text-success fa-solid fa-check"></i>
                         {% endif %}
                     {% endif %}
                 </td>

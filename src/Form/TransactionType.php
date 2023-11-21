@@ -6,6 +6,7 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,25 @@ class TransactionType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class
             ])
-            ->add('value')
+            ->add('value', ChoiceType::class, [
+                'choices' => [
+                    "+100" => 100,
+                    "+75" => 75,
+                    "+50" => 50,
+                    "+30" => 30,
+                    "+20" => 20,
+                    "+10" => 10,
+                    "+5" => 5,
+                    "-5" => -5,
+                    "-10" => -10,
+                    "-20" => -20,
+                    "-30" => -30,
+                    "-50" => -50,
+                    "-75" => -75,
+                    "-100" => -100,
+                ]
+
+            ])
             ->add('description')
         ;
     }

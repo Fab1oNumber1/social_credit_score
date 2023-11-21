@@ -7,8 +7,17 @@
     {% for notification in notification_service.latest %}
         <div class="card mb-3">
             <div class="card-body">
-                <em>{{ notification.created|date }}</em>
-                <h5>{{ notification.message }}</h5>
+                <div class="d-flex gap-3">
+
+                    <div>
+                        {% include 'profile/_partials/_avatar.html.twig' with {'user': notification.author } %}
+                    </div>
+                    <div>
+                        <em>{{ notification.created|date }}</em>
+                        <h5>{{ notification.message }}</h5>
+                    </div>
+
+                </div>
                 <div class="row">
                     <div class="col-10">
                         {% if notification.type == 'transaction' %}

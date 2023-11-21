@@ -23,6 +23,7 @@ class NotificationService
     {
         $notification = new Notification();
 
+        $notification->setAuthor($obj->getAuthor());
         switch (ClassUtils::getRealClass($obj::class)) {
             case Transaction::class:
                 $notification->setType('transaction');
