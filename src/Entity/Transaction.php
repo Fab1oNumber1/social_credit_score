@@ -34,10 +34,14 @@ class Transaction extends Model
     #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $approvers;
 
+    #[ORM\OneToMany(mappedBy: 'transaction', targetEntity: TransactionComment::class, orphanRemoval: true)]
+    private Collection $transactionComments;
+
     public function __construct()
     {
         parent::__construct();
         $this->approvers = new ArrayCollection();
+        $this->transactionComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +129,36 @@ class Transaction extends Model
     public function removeApprover(User $approver): static
     {
         $this->approvers->removeElement($approver);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TransactionComment>
+     */
+    public function getTransactionComments(): Collection
+    {
+        return $this->transactionComments;
+    }
+
+    public function addTransactionComment(TransactionComment $transactionComment): static
+    {
+        if (!$this->transactionComments->contains($transactionComment)) {
+            $this->transactionComments->add($transactionComment);
+            $transactionComment->setTransaction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionComment(TransactionComment $transactionComment): static
+    {
+        if ($this->transactionComments->removeElement($transactionComment)) {
+            // set the owning side to null (unless already changed)
+            if ($transactionComment->getTransaction() === $this) {
+                $transactionComment->setTransaction(null);
+            }
+        }
 
         return $this;
     }

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Transaction;
+use App\Entity\TransactionComment;
 use App\Entity\User;
+use App\Form\TransactionCommentType;
 use App\Form\TransactionType;
 use App\Repository\UserRepository;
 use App\Service\ScoreService;
@@ -22,6 +24,33 @@ class TransactionController extends AbstractController
         return $this->render('transaction/index.html.twig', [
             'user' => $user,
             'transactions' => $user->getTransactions(),
+        ]);
+    }
+
+    #[Route('/transaction/single/{transaction}', name: 'app_transaction_view')]
+    public function viewSingle(
+        Transaction $transaction,
+        Security $security,
+        Request $request,
+        EntityManagerInterface $entityManager,
+    ): Response
+    {
+        $transactionComment = new TransactionComment();
+        $transactionComment->setAuthor($security->getUser());
+        $transactionComment->setTransaction($transaction);
+        $commentForm = $this->createForm(TransactionCommentType::class, $transactionComment);
+
+        $commentForm->handleRequest($request);
+        if($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $transactionComment = $commentForm->getData();
+            $entityManager->persist($transactionComment);
+            $entityManager->flush();
+            $this->addFlash("success", "Dini Meinig isch wertvoll für eus");
+        }
+
+        return $this->render('transaction/view.html.twig', [
+            'commentForm' => $commentForm,
+            'transaction' => $transaction,
         ]);
     }
     #[Route('/transaction/create', name: 'app_transaction_create')]

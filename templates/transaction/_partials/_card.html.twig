@@ -1,0 +1,78 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>Datum</th>
+                <td>{{ transaction.created|date }}</td>
+            </tr>
+            <tr>
+                <th>Punkte</th>
+                <td>
+                            <span class="{% if transaction.value > 0 %}text-success{% else %}text-danger{% endif %}">
+                            {% if transaction.value > 0 %}
+                                +
+                            {% endif %}
+                                {{ transaction.value }}
+                            </span>
+                </td>
+
+            </tr>
+            <tr>
+                <th>Beschreibung</th>
+                <td>
+                    {{ transaction.description|nl2br }}
+                </td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ transaction.status }}
+                    {% if transaction.status == 'review' %}
+                        {{ transaction.approvers|length }}/{{ score_service.numberOfNeededApprovments }}
+                        {% if score_service.canApprove(app.user, transaction) %}
+                            <a href="{{ path('app_transaction_approve', {'transaction': transaction.id}) }}"
+                               class="btn btn-outline-primary">
+                                <i class="fa-solid fa-check"></i>
+                            </a>
+                        {% else %}
+                            <a href="" class="btn btn-outline-success disabled">
+                                <i class="fa-solid fa-check"></i>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Author (Approvers)</th>
+                <td>
+                    {{ transaction.author }} ({{ transaction.approvers|join(', ') }})
+                </td>
+            </tr>
+        </table>
+
+        <h5>Kommentär</h5>
+        {% if transaction.transactionComments|length > 0 %}
+
+            {% for comment in transaction.transactionComments %}
+                <div class="alert alert-info p-1">
+                    <strong>{{ comment.author }}</strong><br>
+                    <p>
+                        {{ comment.text | nl2br }}
+                    </p>
+
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>-</p>
+        {% endif %}
+
+        {% if commentForm is defined %}
+            {{ form_start(commentForm) }}
+            {{ form_rest(commentForm) }}
+            <button class="btn btn-primary">Kommentieren</button>
+            {{ form_end(commentForm) }}
+        {% else %}
+            <a href="{{ path('app_transaction_view', {'transaction': transaction.id}) }}"
+               class="btn btn-outline-primary">Kommentar hinzufügen</a>
+        {% endif %}
+    </div>
+</div>
