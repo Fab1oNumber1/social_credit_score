@@ -37,6 +37,7 @@ class User extends Model implements UserInterface, PasswordAuthenticatedUserInte
     private ?string $lastName = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Transaction::class)]
+    #[ORM\OrderBy(['created' => 'DESC'])]
     private Collection $transactions;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Transaction::class)]
