@@ -31,6 +31,7 @@ class ApiController extends AbstractController
                 'value' => $transaction->getValue(),
                 'status' => $transaction->getStatus(),
                 'approvers' => array_map(fn($approver) => $this->userToArray($approver), $transaction->getApprovers()->toArray()),
+                'description' => $transaction->getDescription(),
             ];
         }
         return $this->json($result);
