@@ -6,6 +6,11 @@ use App\Entity\Transaction;
 use App\Entity\User;
 
 class ScoreService {
+    public function __construct(
+        private NotificationService $notificationService
+    )
+    {
+    }
 
 
     public function calculate(User $user):int {
@@ -36,6 +41,7 @@ class ScoreService {
         $transaction->addApprover($user);
         if( count($transaction->getApprovers()) >= $this->numberOfNeededApprovments()) {
             $transaction->setStatus('approved');
+
         }
         return $transaction;
     }
