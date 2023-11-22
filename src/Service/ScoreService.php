@@ -41,7 +41,7 @@ class ScoreService {
         $transaction->addApprover($user);
         if( count($transaction->getApprovers()) >= $this->numberOfNeededApprovments()) {
             $transaction->setStatus('approved');
-            $this->notificationService->notify("Eintrag für {$transaction->getUser()} approved!", $transaction);
+            $this->notificationService->notify("Eintrag für {$transaction->getUser()} approved!", $transaction, $transaction->getUser());
 
         }
         return $transaction;

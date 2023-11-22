@@ -6,6 +6,7 @@ namespace App\Service;
 use App\Entity\Notification;
 use App\Entity\Transaction;
 use App\Entity\TransactionComment;
+use App\Entity\User;
 use App\Repository\NotificationRepository;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,12 +20,12 @@ class NotificationService
     {
     }
 
-    public function notify(string $message, Transaction|TransactionComment $obj)
+    public function notify(string $message, Transaction|TransactionComment $obj, User $user)
     {
         $notification = new Notification();
 
         $notification->setMessage($message);
-        $notification->setAuthor($obj->getAuthor());
+        $notification->setAuthor($user);
         switch (ClassUtils::getRealClass($obj::class)) {
             case Transaction::class:
                 $notification->setType('transaction');
