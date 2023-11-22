@@ -1,16 +1,6 @@
 <div class="card mb-3">
     <div class="card-body">
-        <div class="d-flex gap-3 mb-3">
-            <div class="">
-                <div class="d-flex gap-2 align-items-center justify-content-center">
-                    {% include 'profile/_partials/_avatar.html.twig' with {'user': transaction.user} %}
-                </div>
-            </div>
-            <div class="">
-                <div class="date fst-italic mb-2">{{ transaction.created|date }}</div>
-                {% include 'transaction/_partials/_points-badge.html.twig' %}
-            </div>
-        </div>
+        {% include 'transaction/_partials/_card-header.html.twig' %}
         <table class="table">
             <tr>
                 <th>Status</th>
