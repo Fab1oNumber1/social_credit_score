@@ -27,10 +27,14 @@
             </tr>
         </table>
         <div>
-            <div class="fw-bolder">Beschreibung</div>
             <p>
                 {{ transaction.description|nl2br }}
             </p>
+            {% if transaction.media %}
+                <div class="border-light border border-1 p-2" style="max-width: 300px;">
+                    <img src="{{ path('app_media', {'media': transaction.media.id}) }}" class="w-100">
+                </div>
+            {% endif %}
         </div>
         <div class="fw-bolder">Kommentär</div>
         {% if transaction.transactionComments|length > 0 %}

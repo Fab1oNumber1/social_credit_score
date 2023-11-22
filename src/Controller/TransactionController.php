@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\TransactionCommentType;
 use App\Form\TransactionType;
 use App\Repository\UserRepository;
+use App\Service\MediaService;
 use App\Service\NotificationService;
 use App\Service\ScoreService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,6 +71,7 @@ class TransactionController extends AbstractController
         Security $security,
         ScoreService $scoreService,
         NotificationService $notificationService,
+        MediaService $mediaService,
     ): Response
     {
         $transaction = new Transaction();
@@ -86,6 +88,13 @@ class TransactionController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $transaction = $form->getData();
+            $media = $form->get('media')->getData();
+            if($media) {
+                $media =  $mediaService->handleMediaUpload($media, $user, "Media zu Eintrag ".$transaction->getId());
+                $transaction->setMedia($media);
+                $entityManager->persist($media);
+            }
+
 
             $entityManager->persist($transaction);
             $entityManager->flush();

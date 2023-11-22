@@ -37,6 +37,9 @@ class Transaction extends Model
     #[ORM\OneToMany(mappedBy: 'transaction', targetEntity: TransactionComment::class, orphanRemoval: true)]
     private Collection $transactionComments;
 
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Media $media = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -159,6 +162,18 @@ class Transaction extends Model
                 $transactionComment->setTransaction(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMedia(): ?Media
+    {
+        return $this->media;
+    }
+
+    public function setMedia(?Media $media): static
+    {
+        $this->media = $media;
 
         return $this;
     }

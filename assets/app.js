@@ -1,3 +1,4 @@
+import './bootstrap.js';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -12,6 +13,7 @@
 //import './ext/ReStable/jquery.restable.css'
 //import './ext/ReStable/jquery.restable'
 import * as bootstrap from 'bootstrap'
+import './bootstrap'
 
 import './styles/app.scss';
 

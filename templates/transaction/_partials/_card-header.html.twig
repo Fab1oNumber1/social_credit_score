@@ -13,15 +13,25 @@
                     {% include 'transaction/_partials/_points-badge.html.twig' %}
                 </div>
             </div>
-            {% if is_preview is defined %}
-                <div class="text-overflow mb-3 fw-bolder">
-                    {{ transaction.description }}
-                </div>
-            {% endif %}
         </div>
     </div>
 
     {% if is_preview is defined %}
+
+        <div class="d-flex gap-2">
+            {% if transaction.media %}
+                <div style="width: 60px">
+
+                    <img src="{{ path('app_media', {'media': transaction.media.id}) }}" alt="" class="w-100">
+                </div>
+            {% endif %}
+            <div class="flex-grow-1">
+                <div class="text-overflow mb-3 fw-bolder">
+                    {{ transaction.description }}
+                </div>
+            </div>
+
+        </div>
         <div class="d-flex justify-content-between">
             <div>
                 <i>

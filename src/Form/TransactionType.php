@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class TransactionType extends AbstractType
 {
@@ -37,7 +38,12 @@ class TransactionType extends AbstractType
                 ]
 
             ])
+
             ->add('description')
+            ->add('media', DropzoneType::class, [
+                'mapped' => false
+
+            ])
         ;
     }
 
