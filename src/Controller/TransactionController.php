@@ -120,8 +120,8 @@ class TransactionController extends AbstractController
         $entityManager->persist($transaction);
         $entityManager->flush();
 
-        $this->addFlash("success", "Transaktion akzeptiert");
-        return $this->redirectToRoute('app_transaction', ['user' => $transaction->getUser()->getId()]);
+        $this->addFlash("success", "Eintrag approved");
+        return $this->redirectToRoute('app_transaction_view', ['transaction' => $transaction->getId()]);
 
     }
 }

@@ -4,6 +4,7 @@
 
 {% block body %}
 
+    <h4>Einträge zu {{ user }}</h4>
     {% for transaction in transactions %}
         {% include 'transaction/_partials/_card.html.twig' %}
     {% endfor %}
