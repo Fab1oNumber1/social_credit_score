@@ -28,7 +28,7 @@ class NotificationService
             case Transaction::class:
                 $notification->setType('transaction');
                 $notification->setTransaction($obj);
-                $notification->setMessage("{$obj->getAuthor()} hat einen Eintrag erstellt.");
+                $notification->setMessage("{$obj->getAuthor()} hat einen Eintrag zu {$obj->getUser()} erstellt.");
                 break;
             case TransactionComment::class:
                 $notification->setType('transaction_comment');
