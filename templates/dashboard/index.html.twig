@@ -10,6 +10,9 @@
         <li class="nav-item">
             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-users">Mit<b>glied</b>er</button>
         </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-review-transactions">Offene Einträge</button>
+        </li>
     </ul>
     <div class="tab-content p-2">
         <div class="tab-pane fade show active" id="tab-news">
@@ -66,6 +69,13 @@
                 {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="tab-pane" id="tab-review-transactions">
+            {% for transaction in reviewTransactions %}
+                {% include 'transaction/_partials/_card.html.twig' with {'transaction': transaction} %}
+
+            {% endfor %}
+
         </div>
 
     </div>
