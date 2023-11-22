@@ -9,7 +9,9 @@
         <div class="flex-grow-1">
             <div class="d-flex justify-content-between">
                 <div class="date fst-italic mb-2">{{ transaction.created|date }}</div>
-                {% include 'transaction/_partials/_points-badge.html.twig' %}
+                <div>
+                    {% include 'transaction/_partials/_points-badge.html.twig' %}
+                </div>
             </div>
             {% if is_preview is defined %}
                 <div class="text-overflow mb-3 fw-bolder">
