@@ -41,7 +41,8 @@ class TransactionType extends AbstractType
 
             ->add('description')
             ->add('media', DropzoneType::class, [
-                'mapped' => false
+                'mapped' => false,
+                'required' => false,
 
             ])
         ;
