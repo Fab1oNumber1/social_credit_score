@@ -1,3 +1,10 @@
-{% if user and user.avatar %}
-<img src="{{ path('app_media', {'media': user.avatar.id}) }}" alt="" class="avatar-badge">
-{% endif %}
+<div class="avatar-badge-container text-center">
+
+    {% if user and user.avatar %}
+        <img src="{{ path('app_media', {'media': user.avatar.id}) }}" alt="" class="avatar-badge">
+        <br>
+    {% endif %}
+    {% if user %}
+        <small style="font-size: 10px; font-style: italic">{{ user }}</small>
+    {% endif %}
+</div>

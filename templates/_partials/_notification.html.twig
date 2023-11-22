@@ -1,0 +1,43 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex gap-3">
+
+            <div>
+                {% include 'profile/_partials/_avatar.html.twig' with {'user': notification.author } %}
+            </div>
+            <div>
+                <em>{{ notification.created|date }}</em>
+                <br>
+                <strong>{{ notification.message }}</strong>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-10">
+                {% if notification.type == 'transaction' %}
+                    <div class="text-preview mb-2">
+                        {{ notification.transaction.description }}
+                    </div>
+                    {% include 'transaction/_partials/_points-badge.html.twig' with {'transaction': notification.transaction} %}
+                {% elseif notification.type == 'transaction_comment' %}
+                    <div class="text-preview">
+                        {{ notification.transactionComment.text }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-2">
+                {% if notification.type == 'transaction' %}
+                    <a href="{{ path('app_transaction_view', {'transaction': notification.transaction.id}) }}" class="btn btn-primary">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                {% elseif notification.type == 'transaction_comment' %}
+                    <a href="{{ path('app_transaction_view', {'transaction': notification.transactionComment.transaction.id}) }}" class="btn btn-primary">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>

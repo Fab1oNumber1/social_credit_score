@@ -1,28 +1,17 @@
 <div class="card mb-3">
     <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-4">
+                <div class="d-flex gap-2 align-items-center justify-content-center">
+                    {% include 'profile/_partials/_avatar.html.twig' with {'user': transaction.author} %}
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="date fst-italic mb-2">{{ transaction.created|date }}</div>
+                {% include 'transaction/_partials/_points-badge.html.twig' %}
+            </div>
+        </div>
         <table class="table">
-            <tr>
-                <th style="width: 18ch">Datum</th>
-                <td>{{ transaction.created|date }}</td>
-            </tr>
-            <tr>
-                <th>Target</th>
-                <td>{{ transaction.user }}</td>
-            </tr>
-            <tr>
-
-                <th>Punkte</th>
-                <td>
-                    {% include 'transaction/_partials/_points-badge.html.twig' %}
-                </td>
-
-            </tr>
-            <tr>
-                <th>Beschreibung</th>
-                <td>
-                    {{ transaction.description|nl2br }}
-                </td>
-            </tr>
             <tr>
                 <th>Status</th>
                 <td>{{ transaction.status }}
@@ -34,7 +23,7 @@
                                 <i class="fa-solid fa-check"></i>
                             </a>
                         {% else %}
-                                <i class="text-success fa-solid fa-check"></i>
+                            <i class="text-success fa-solid fa-check"></i>
                         {% endif %}
                     {% endif %}
                 </td>
@@ -46,17 +35,27 @@
                 </td>
             </tr>
         </table>
-
-        <h5>Kommentär</h5>
+        <div>
+            <div class="fw-bolder">Beschreibung</div>
+            <p>
+                {{ transaction.description|nl2br }}
+            </p>
+        </div>
+        <div class="fw-bolder">Kommentär</div>
         {% if transaction.transactionComments|length > 0 %}
 
             {% for comment in transaction.transactionComments %}
                 <div class="alert alert-info p-1">
-                    {% include 'profile/_partials/_avatar.html.twig' with {'user': comment.author} %}
-                    <strong>{{ comment.author }}</strong><br>
-                    <p class="mt-1">
-                        {{ comment.text | nl2br }}
-                    </p>
+                    <div class="d-flex gap-3">
+
+                        {% include 'profile/_partials/_avatar.html.twig' with {'user': comment.author} %}
+                        <div class="flex-grow-1">
+                            <p class="mt-1">
+                                {{ comment.text | nl2br }}
+                            </p>
+
+                        </div>
+                    </div>
 
                 </div>
             {% endfor %}

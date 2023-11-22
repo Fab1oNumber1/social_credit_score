@@ -11,8 +11,12 @@
 //import 'jquery'
 //import './ext/ReStable/jquery.restable.css'
 //import './ext/ReStable/jquery.restable'
+import * as bootstrap from 'bootstrap'
 
 import './styles/app.scss';
+
+$(document).ready(function () {
+})
 
 /*
 $('.allow-push').on('click', () => {

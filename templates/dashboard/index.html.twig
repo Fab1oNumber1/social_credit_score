@@ -3,96 +3,71 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <h4>Latest niuuws</h4>
-    {% for notification in notification_service.latest %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex gap-3">
+    <ul class="nav nav-tabs" id="dashboard-tabs">
+        <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-news">Latest Niiuuus</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-users">Mit<b>glied</b>er</button>
+        </li>
+    </ul>
+    <div class="tab-content p-2">
+        <div class="tab-pane fade show active" id="tab-news">
 
-                    <div>
-                        {% include 'profile/_partials/_avatar.html.twig' with {'user': notification.author } %}
-                    </div>
-                    <div>
-                        <em>{{ notification.created|date }}</em>
-                        <h5>{{ notification.message }}</h5>
-                    </div>
-
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-10">
-                        {% if notification.type == 'transaction' %}
-                            <div class="text-preview mb-2">
-                                {{ notification.transaction.description }}
+            {% for notification in notification_service.latest %}
+                {% include '_partials/_notification.html.twig' %}
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="tab-users">
+            <table class="table " style="table-layout: fixed">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Punkte</th>
+                    <th>Need Approve</th>
+                    <th>Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            {% include 'profile/_partials/_avatar.html.twig' %}
+                            {{ user.firstName }} {{ user.lastName }}
+                        </td>
+                        <td>
+                            <div class="badge bg-success text-white fs-6 text-end" style="min-width: 5ch">
+                                {{ score_service.calculate(user) }}
                             </div>
-                            {% include 'transaction/_partials/_points-badge.html.twig' with {'transaction': notification.transaction} %}
-                        {% elseif notification.type == 'transaction_comment' %}
-                            <div class="text-preview">
-                                {{ notification.transactionComment.text }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="col-2">
-                        {% if notification.type == 'transaction' %}
-                            <a href="{{ path('app_transaction_view', {'transaction': notification.transaction.id}) }}" class="btn btn-primary">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                        {% elseif notification.type == 'transaction_comment' %}
-                            <a href="{{ path('app_transaction_view', {'transaction': notification.transactionComment.transaction.id}) }}" class="btn btn-primary">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
+                        </td>
+                        <td>
 
-            </div>
+                            {% set needApprovment = user.transactions|filter(t => t.status == 'review')|length %}
+                            {% if needApprovment > 0 %}
+
+                                <strong class="badge bg-danger text-white">
+                                    {{ user.transactions|filter(t => t.status == 'review')|length }}
+                                </strong>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <a href="{{ path('app_transaction', {'user': user.id}) }}" class="btn btn-info">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a href="{{ path('app_transaction_create', {'user': user.id}) }}" class="btn btn-primary">
+                                    <i class="fa-solid fa-plus-minus"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
 
-    {% endfor %}
-    <h4>Mit<em>glied</em>er</h4>
-    <table class="table " style="table-layout: fixed">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Punkte</th>
-            <th>Need Approve</th>
-            <th>Aktionen</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>
-                    {% include 'profile/_partials/_avatar.html.twig' %}
-                    {{ user.firstName }} {{ user.lastName }}
-                </td>
-                <td>
-                    {{ score_service.calculate(user) }} Punkte
-                </td>
-                <td>
-
-                    {% set needApprovment = user.transactions|filter(t => t.status == 'review')|length %}
-                    {% if needApprovment > 0 %}
-
-                        <strong class="badge bg-danger text-white">
-                            {{ user.transactions|filter(t => t.status == 'review')|length }}
-                        </strong>
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{{ path('app_transaction', {'user': user.id}) }}" class="btn btn-info">
-                        <i class="fa-solid fa-eye"></i>
-                    </a>
-                    <a href="{{ path('app_transaction_create', {'user': user.id}) }}" class="btn btn-primary">
-                        <i class="fa-solid fa-plus-minus"></i>
-                    </a>
-                </td>
-            </tr>
-
-        {% endfor %}
-        </tbody>
-
-    </table>
+    </div>
 {% endblock %}
