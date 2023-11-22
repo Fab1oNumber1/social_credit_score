@@ -4,7 +4,8 @@
         <table class="table">
             <tr>
                 <th>Status</th>
-                <td>{{ transaction.status }}
+                <td>
+                    {{ transaction.status }}
                     {% if transaction.status == 'review' %}
                         {{ transaction.approvers|length }}/{{ score_service.numberOfNeededApprovments }}
                         {% if score_service.canApprove(app.user, transaction) %}

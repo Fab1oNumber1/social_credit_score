@@ -1,23 +1,41 @@
-<div class="d-flex gap-3 mb-3 ju">
-    <div class="">
-        <div class="d-flex gap-2 align-items-center justify-content-center">
-            {% include 'profile/_partials/_avatar.html.twig' with {'user': transaction.user} %}
+<div>
+
+    <div class="d-flex gap-3">
+        <div class="">
+            <div class="d-flex gap-2 align-items-center justify-content-center">
+                {% include 'profile/_partials/_avatar.html.twig' with {'user': transaction.user} %}
+            </div>
+        </div>
+        <div class="flex-grow-1">
+            <div class="d-flex justify-content-between">
+                <div class="date fst-italic mb-2">{{ transaction.created|date }}</div>
+                {% include 'transaction/_partials/_points-badge.html.twig' %}
+            </div>
+            {% if is_preview is defined %}
+                <div class="text-overflow mb-3 fw-bolder">
+                    {{ transaction.description }}
+                </div>
+            {% endif %}
         </div>
     </div>
-    <div class="flex-grow-1">
+
+    {% if is_preview is defined %}
         <div class="d-flex justify-content-between">
-            <div class="date fst-italic mb-2">{{ transaction.created|date }}</div>
-            {% include 'transaction/_partials/_points-badge.html.twig' %}
-        </div>
-        {% if is_preview is defined %}
-            <div class="text-overflow">
-                {{ transaction.description }}
+            <div>
+                <i>
+                    {{ transaction.status }}
+                    {% if transaction.status == 'review' %}
+                        {{ transaction.approvers|length }}/{{ score_service.numberOfNeededApprovments }}
+                    {% endif %}
+                </i>
+
             </div>
-            <div class="d-flex justify-content-end">
-                <a href="{{ path('app_transaction_view', {'transaction': transaction.id}) }}" class="btn btn-outline-primary">
+            <div>
+                <a href="{{ path('app_transaction_view', {'transaction': transaction.id}) }}"
+                   class="btn btn-outline-primary">
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 </div>
