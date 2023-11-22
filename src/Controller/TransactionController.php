@@ -49,7 +49,7 @@ class TransactionController extends AbstractController
             $entityManager->persist($transactionComment);
             $entityManager->flush();
             $this->addFlash("success", "Dini Meinig isch wertvoll für eus");
-            $notificationService->notify($transactionComment);
+            $notificationService->notify("{$transactionComment->getAuthor()} hat ein Kommentar geschrieben.", $transactionComment);
 
             $transactionComment = new TransactionComment();
             $transactionComment->setAuthor($security->getUser());
@@ -90,7 +90,7 @@ class TransactionController extends AbstractController
             $entityManager->persist($transaction);
             $entityManager->flush();
             $this->addFlash("success", "Transaktion erstellt.");
-            $notificationService->notify($transaction);
+            $notificationService->notify("{$transaction->getAuthor()} hat einen Eintrag zu {$transaction->getUser()} erstellt.", $transaction);
             return $this->redirectToRoute('app_transaction', ['user' => $transaction->getUser()->getId()]);
         }
 

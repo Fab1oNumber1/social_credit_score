@@ -19,21 +19,20 @@ class NotificationService
     {
     }
 
-    public function notify(Transaction|TransactionComment $obj)
+    public function notify(string $message, Transaction|TransactionComment $obj)
     {
         $notification = new Notification();
 
+        $notification->setMessage($message);
         $notification->setAuthor($obj->getAuthor());
         switch (ClassUtils::getRealClass($obj::class)) {
             case Transaction::class:
                 $notification->setType('transaction');
                 $notification->setTransaction($obj);
-                $notification->setMessage("{$obj->getAuthor()} hat einen Eintrag zu {$obj->getUser()} erstellt.");
                 break;
             case TransactionComment::class:
                 $notification->setType('transaction_comment');
                 $notification->setTransactionComment($obj);
-                $notification->setMessage("{$obj->getAuthor()} hat ein Kommentar geschrieben.");
                 break;
             default:
                 $notification->setType('');
