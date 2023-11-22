@@ -23,13 +23,13 @@
         {% endif %}
 
         {% if notification.type == 'transaction_comment' %}
+            <div class="alert alert-info">
+                {{ notification.transactionComment.text | nl2br }}
+            </div>
             <div class="alert alert-light">
                 <div>
                     {% include 'transaction/_partials/_card-header.html.twig' with {'transaction': notification.transactionComment.transaction, 'is_preview': 1} %}
                 </div>
-            </div>
-            <div class="alert alert-info">
-                {{ notification.transactionComment.text | nl2br }}
             </div>
         {% endif %}
 
