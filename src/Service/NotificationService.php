@@ -45,6 +45,6 @@ class NotificationService
 
     public function getLatest()
     {
-        return $this->notificationRepository->findBy(['type' => 'transaction',], ['updated' => 'DESC', ], 40);
+        return $this->notificationRepository->findBy([], ['created' => 'DESC'], 40);
     }
 }

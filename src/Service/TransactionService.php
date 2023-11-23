@@ -4,14 +4,19 @@ namespace App\Service;
 
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TransactionService {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private NotificationService $notificationService,
+        private TransactionRepository $transactionRepository,
     )
     {
+    }
+    public function getLatest() {
+        return $this->transactionRepository->findBy(['active' => 1], ['updated' => 'DESC']);
     }
 
     public function canEdit(User $user, Transaction $transaction):bool {
