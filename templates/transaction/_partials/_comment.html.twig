@@ -3,6 +3,7 @@
 
         {% include 'profile/_partials/_avatar.html.twig' with {'user': comment.author} %}
         <div class="flex-grow-1">
+            <small class="fst-italic">{{ comment.created | date }}</small>
             <p class="mt-1">
                 {{ comment.text | nl2br }}
             </p>
