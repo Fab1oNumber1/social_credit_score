@@ -8,10 +8,12 @@ use App\Entity\TransactionComment;
 use App\Entity\User;
 use App\Form\TransactionCommentType;
 use App\Form\TransactionType;
+use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
 use App\Service\MediaService;
 use App\Service\NotificationService;
 use App\Service\ScoreService;
+use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -22,11 +24,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransactionController extends AbstractController
 {
     #[Route('/transaction/view/{user}', name: 'app_transaction')]
-    public function index(User $user): Response
+    public function index(
+        User $user,
+        TransactionRepository $transactionRepository,
+    ): Response
     {
         return $this->render('transaction/index.html.twig', [
             'user' => $user,
-            'transactions' => $user->getTransactions(),
+            'transactions' => $transactionRepository->findBy(['user' => $user->getId(), 'active' => 1]),
         ]);
     }
 
@@ -173,6 +178,32 @@ class TransactionController extends AbstractController
 
         $this->addFlash("success", "Eintrag approved");
         return $this->redirectToRoute('app_transaction_view', ['transaction' => $transaction->getId()]);
+
+    }
+
+    #[Route('/transaction/{transaction}/delete', name: 'app_transaction_delete')]
+    public function delete(
+        Transaction $transaction,
+        Request $request,
+        TransactionService $transactionService,
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository,
+        Security $security,
+        ScoreService $scoreService,
+    ): Response
+    {
+
+        if(!$transactionService->canEdit($this->getUser(), $transaction)) {
+            throw new \Exception("Kei Recht du arsch");
+        }
+
+        $transaction->setActive(0);
+
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        $this->addFlash("success", "Eintrag gelöscht");
+        return $this->redirectToRoute('app_dashboard');
 
     }
 }

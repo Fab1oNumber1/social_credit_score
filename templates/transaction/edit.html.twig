@@ -15,5 +15,6 @@
             </div>
         {% endif %}
     <button type="submit" class="btn btn-primary">Speichern</button>
+    <a href="{{ path('app_transaction_delete', {'transaction': form.vars.value.id}) }}" class="btn btn-danger">Eintrag löschen</a>
     {{ form_end(form) }}
 {% endblock %}

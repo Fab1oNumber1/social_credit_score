@@ -25,7 +25,7 @@ class DashboardController extends AbstractController
         ScoreService $scoreService,
     ): Response
     {
-        $reviewTransactions = $transactionRepository->findBy(['status' => 'review'], ['created' => 'DESC']);
+        $reviewTransactions = $transactionRepository->findBy(['status' => 'review', 'active' => 1], ['created' => 'DESC']);
         $users = $userRepository->findAll();
         usort($users, fn($a, $b) => $scoreService->calculate($b) <=> $scoreService->calculate($a));
         return $this->render('dashboard/index.html.twig', [

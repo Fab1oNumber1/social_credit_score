@@ -4,6 +4,7 @@ twig:
     globals:
         score_service: '@App\Service\ScoreService'
         notification_service: '@App\Service\NotificationService'
+        transaction_service: '@App\Service\TransactionService'
 
 
 

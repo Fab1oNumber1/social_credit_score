@@ -1,8 +1,10 @@
 <div class="card mb-3 position-relative">
-    {% if transaction.author and transaction.author.id == app.user.id %}
-        <a href="{{ path('app_transaction_edit', {'transaction': transaction.id}) }}" class="position-absolute bottom-0 btn btn-sm btn-danger end-0">
-            <i class="fa-solid fa-pen-to-square"></i>
-        </a>
+    {% if transaction.author and transaction_service.canEdit(app.user, transaction) %}
+        <div class="position-absolute bottom-0 end-0 p-2">
+            <a href="{{ path('app_transaction_edit', {'transaction': transaction.id}) }}" class=" btn btn-sm btn-success">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+        </div>
     {% endif %}
     <div class="card-body">
         {% include 'transaction/_partials/_card-header.html.twig' %}
