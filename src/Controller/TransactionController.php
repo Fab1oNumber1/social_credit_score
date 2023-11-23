@@ -54,8 +54,12 @@ class TransactionController extends AbstractController
             $transactionComment = $commentForm->getData();
             $entityManager->persist($transactionComment);
             $entityManager->flush();
+            $transaction->setUpdated($transactionComment->getCreated());
+            $entityManager->persist($transaction);
+            $entityManager->flush();
             $this->addFlash("success", "Dini Meinig isch wertvoll für eus");
             $notificationService->notify("{$transactionComment->getAuthor()} hat ein Kommentar geschrieben.", $transactionComment, $transactionComment->getAuthor());
+
 
             $transactionComment = new TransactionComment();
             $transactionComment->setAuthor($security->getUser());
