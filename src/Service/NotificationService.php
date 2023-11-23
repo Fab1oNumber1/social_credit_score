@@ -84,9 +84,11 @@ class NotificationService
                 ])
             );
 
+        $sendPhoto = false;
         if($notification->getType() === 'transaction' && $notification->getTransaction()->getMedia()) {
             //$telegramOptions->photo('https://afi-credit-score.jimsoft.ch/media/6');
-            //$telegramOptions->photo($this->siteUrl . $this->urlGenerator->generate('app_media', ['media' =>$notification->getTransaction()->getMedia()->getId()]));
+            $sendPhoto = true;
+            $telegramOptions->photo($this->siteUrl . $this->urlGenerator->generate('app_media', ['media' =>$notification->getTransaction()->getMedia()->getId()]));
 
         }
         $options = $telegramOptions?->toArray() ?? [];
@@ -102,8 +104,12 @@ class NotificationService
             unset($options['text']);
         }
 
+        $apiUrl = $this->telegramApiUrl;
+        if($sendPhoto) {
+            $apiUrl = str_replace('sendMessage', 'sendPhoto', $apiUrl);
+        }
 
-        $response = $this->httpClient->request('POST', $this->telegramApiUrl, [
+        $response = $this->httpClient->request('POST', $apiUrl, [
             'json' => array_filter($options),
         ]);
 
