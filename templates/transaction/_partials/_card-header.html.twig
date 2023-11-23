@@ -20,13 +20,13 @@
 
         <div class="d-flex gap-2">
             {% if transaction.media %}
-                <div style="width: 60px">
+                <div style="width: 60px; min-width: 60px;">
 
                     <img src="{{ path('app_media', {'media': transaction.media.id}) }}" alt="" class="w-100">
                 </div>
             {% endif %}
             <div class="flex-grow-1">
-                <div class="text-overflow mb-3 fw-bolder">
+                <div class="mb-3 fw-bolder">
                     {{ transaction.description | nl2br }}
                 </div>
             </div>
