@@ -31,7 +31,7 @@ class TransactionController extends AbstractController
     {
         return $this->render('transaction/index.html.twig', [
             'user' => $user,
-            'transactions' => $transactionRepository->findBy(['user' => $user->getId(), 'active' => 1]),
+            'transactions' => $transactionRepository->findBy(['user' => $user->getId(), 'active' => 1], ['created' => 'DESC']),
         ]);
     }
 
