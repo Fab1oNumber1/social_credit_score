@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
+use App\Entity\Transaction;
 use App\Entity\TransactionComment;
 use App\Entity\User;
+use App\Repository\NotificationRepository;
 use App\Repository\TransactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,22 +28,65 @@ class ApiController extends AbstractController
 
 
         foreach ($transactionRepository->findBy($filters) as $transaction) {
-            $result[] = [
-                'id' => $transaction->getId(),
-                'created' => $transaction->getCreated()->format('Y-m-d H:i:s'),
-                'updated' => $transaction->getUpdated()->format('Y-m-d H:i:s'),
-                'author' =>$this->userToArray($transaction->getAuthor()),
-                'user' =>$this->userToArray($transaction->getUser()),
-                'value' => $transaction->getValue(),
-                'status' => $transaction->getStatus(),
-                'approvers' => array_map(fn($approver) => $this->userToArray($approver), $transaction->getApprovers()->toArray()),
-                'description' => $transaction->getDescription(),
-                'comments' => array_map(fn($c) => $this->commentToArray($c), $transaction->getTransactionComments()->toArray()),
-            ];
+            $result[] = $this->transactionToArray($transaction);
         }
         return $this->json($result);
     }
 
+
+    #[Route('/notifications', name: 'notifications', methods: ['GET'])]
+    public function notifications(
+        Request $request,
+        TransactionRepository $transactionRepository,
+        NotificationRepository $notificationRepository,
+    ): Response
+    {
+        $result = [];
+
+        $filters = $request->get('filters', []);
+        $filters['active'] = 1;
+
+
+        foreach ($notificationRepository->findBy($filters, ['created' => 'DESC'], 50) as $notification) {
+            $result[] = $this->notificationToArray($notification);
+        }
+        return $this->json($result);
+    }
+
+    private function notificationToArray(?Notification $notification) {
+        if(!$notification) {
+            return null;
+        }
+        return [
+
+            'id' => $notification->getId(),
+            'created' => $notification->getCreated()->format('Y-m-d H:i:s'),
+            'updated' => $notification->getUpdated()->format('Y-m-d H:i:s'),
+            'author' =>$this->userToArray($notification->getAuthor()),
+            'message' => $notification->getMessage(),
+            'type' => $notification->getType(),
+            'transaction' => $this->transactionToArray($notification->getTransaction()),
+            'transactionComment' => $this->commentToArray($notification->getTransactionComment()),
+        ];
+    }
+
+    private function transactionToArray(?Transaction $transaction) {
+        if(!$transaction) {
+            return null;
+        }
+        return [
+            'id' => $transaction->getId(),
+            'created' => $transaction->getCreated()->format('Y-m-d H:i:s'),
+            'updated' => $transaction->getUpdated()->format('Y-m-d H:i:s'),
+            'author' =>$this->userToArray($transaction->getAuthor()),
+            'user' =>$this->userToArray($transaction->getUser()),
+            'value' => $transaction->getValue(),
+            'status' => $transaction->getStatus(),
+            'approvers' => array_map(fn($approver) => $this->userToArray($approver), $transaction->getApprovers()->toArray()),
+            'description' => $transaction->getDescription(),
+            'comments' => array_map(fn($c) => $this->commentToArray($c), $transaction->getTransactionComments()->toArray()),
+        ];
+    }
     private function commentToArray(?TransactionComment $comment) {
         if(!$comment) {
             return null;
