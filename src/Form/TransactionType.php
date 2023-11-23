@@ -46,12 +46,17 @@ class TransactionType extends AbstractType
 
             ])
         ;
+        if($options['mode'] === 'edit') {
+            $builder->get('description')->setDisabled(true);
+            $builder->get('user')->setDisabled(true);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Transaction::class,
+            'mode' => 'create'
         ]);
     }
 }

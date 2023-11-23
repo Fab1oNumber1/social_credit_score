@@ -108,6 +108,48 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    #[Route('/transaction/{transaction}}/edit', name: 'app_transaction_edit')]
+    public function edit(
+        Transaction $transaction,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository,
+        Security $security,
+        ScoreService $scoreService,
+        NotificationService $notificationService,
+        MediaService $mediaService,
+    ): Response
+    {
+        if($transaction->getAuthor()->getId() !== $this->getUser()->getId()) {
+            throw new \Exception("Du bisch ned de Author du Schlingel");
+        }
+        $form = $this->createForm(TransactionType::class, $transaction, ['mode' => 'edit']);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $transaction = $form->getData();
+            $media = $form->get('media')->getData();
+            if($media) {
+                $media =  $mediaService->handleMediaUpload($media, $this->getUser(), "Media zu Eintrag ".$transaction->getId());
+                $transaction->setMedia($media);
+                $entityManager->persist($media);
+            }
+
+
+
+            $entityManager->persist($transaction);
+            $entityManager->flush();
+            $this->addFlash("success", "Eintrag bearbeitet.");
+            $notificationService->notify("{$transaction->getAuthor()} hat einen Eintrag zu {$transaction->getUser()} bearbeitet.", $transaction, $transaction->getAuthor());
+            return $this->redirectToRoute('app_transaction', ['user' => $transaction->getUser()->getId()]);
+        }
+
+        return $this->render('transaction/edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/transaction/{transaction}/approve', name: 'app_transaction_approve')]
     public function approve(
         Transaction $transaction,

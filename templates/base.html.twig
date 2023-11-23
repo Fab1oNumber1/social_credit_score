@@ -20,7 +20,7 @@
     </head>
     <body >
     <div class="p-3 bg-primary text-white fs-5">
-        <div class="container">
+        <div class="container default-sized-block">
             <div class="d-flex justify-content-between">
             <div class="d-flex gap-3 align-items-end">
 
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="container pb-5">
+    <div class="container pb-5 default-sized-block">
         <h4 class="mt-4">
             {% block page_title %}{% endblock %}
         </h4>
@@ -67,6 +67,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endfor %}
+
 
         {% block body %}{% endblock %}
     </div>

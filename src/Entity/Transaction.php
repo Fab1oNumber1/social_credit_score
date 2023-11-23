@@ -17,7 +17,7 @@ class Transaction extends Model
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $value = null;
+    private ?int $value = 10;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?User $user = null;

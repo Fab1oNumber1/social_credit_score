@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erstellen{% endblock %}
+
+{% block body %}
+    <h5>Eintrag bearbeiten</h5>
+    {{ form_start(form) }}
+
+    {{ form_rest(form) }}
+
+        {% if form.vars.value.media %}
+            <h6>Aktuelles Media</h6>
+            <div class="img-thumbnail-container mb-3">
+            <img src="{{ path('app_media', {'media': form.vars.value.media.id}) }}" class="img-thumbnail">
+            </div>
+        {% endif %}
+    <button type="submit" class="btn btn-primary">Speichern</button>
+    {{ form_end(form) }}
+{% endblock %}

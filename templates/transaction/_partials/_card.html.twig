@@ -1,4 +1,9 @@
-<div class="card mb-3">
+<div class="card mb-3 position-relative">
+    {% if transaction.author and transaction.author.id == app.user.id %}
+        <a href="{{ path('app_transaction_edit', {'transaction': transaction.id}) }}" class="position-absolute bottom-0 btn btn-sm btn-danger end-0">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+    {% endif %}
     <div class="card-body">
         {% include 'transaction/_partials/_card-header.html.twig' %}
         <table class="table">
@@ -31,8 +36,8 @@
                 {{ transaction.description|nl2br }}
             </p>
             {% if transaction.media %}
-                <div class="border-light border border-1 p-2" style="max-width: 300px;">
-                    <img src="{{ path('app_media', {'media': transaction.media.id}) }}" class="w-100">
+                <div class="border-light border border-1 p-2 mb-3" style="max-width: 300px; max-height: 300px">
+                    <img src="{{ path('app_media', {'media': transaction.media.id}) }}" class="w-100" style="height: 300px; object-fit: contain">
                 </div>
             {% endif %}
         </div>

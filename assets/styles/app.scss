@@ -37,8 +37,18 @@ $alert-padding-y: .5rem;
   width: 100%;
   text-overflow: ellipsis;
 }
-.notification-block {
+.default-sized-block {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+}
+.notification-block {
+}
+
+.img-thumbnail-container {
+  img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+  }
 }
