@@ -16,6 +16,10 @@ class DashboardController extends AbstractController
         UserRepository $userRepository,
     ): Response
     {
+        if($this->getUser()) {
+            return $this->redirectToRoute('app_dashboard');
+
+        }
         return $this->redirectToRoute('app_login');
     }
     #[Route('/dashboard', name: 'app_dashboard')]
