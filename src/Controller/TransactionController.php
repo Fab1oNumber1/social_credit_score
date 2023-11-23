@@ -133,6 +133,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            /** @var Transaction $transaction */
             $transaction = $form->getData();
             $media = $form->get('media')->getData();
             if($media) {
@@ -140,6 +141,11 @@ class TransactionController extends AbstractController
                 $transaction->setMedia($media);
                 $entityManager->persist($media);
             }
+
+            foreach($transaction->getApprovers() as $approver) {
+                $transaction->removeApprover($approver);
+            }
+            $transaction->addApprover($transaction->getAuthor());
 
 
 
