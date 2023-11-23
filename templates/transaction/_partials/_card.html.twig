@@ -47,19 +47,7 @@
         {% if transaction.transactionComments|length > 0 %}
 
             {% for comment in transaction.transactionComments %}
-                <div class="alert alert-info p-1">
-                    <div class="d-flex gap-3">
-
-                        {% include 'profile/_partials/_avatar.html.twig' with {'user': comment.author} %}
-                        <div class="flex-grow-1">
-                            <p class="mt-1">
-                                {{ comment.text | nl2br }}
-                            </p>
-
-                        </div>
-                    </div>
-
-                </div>
+                {% include 'transaction/_partials/_comment.html.twig' with {'comment': comment} %}
             {% endfor %}
         {% else %}
             <p>-</p>

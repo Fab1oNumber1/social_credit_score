@@ -30,6 +30,14 @@
                     {{ transaction.description }}
                 </div>
             </div>
+            {% if transaction.transactionComments|length > 0 %}
+
+                {% for comment in transaction.transactionComments %}
+                    {% include 'transaction/_partials/_comment.html.twig' with {'comment': comment} %}
+                {% endfor %}
+            {% else %}
+                <p>-</p>
+            {% endif %}
 
         </div>
         <div class="d-flex justify-content-between">

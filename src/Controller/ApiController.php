@@ -18,7 +18,7 @@ class ApiController extends AbstractController
 {
     #[Route('/transactions', name: 'transactions', methods: ['GET'])]
     public function transactions(
-        Request $request,
+        Request               $request,
         TransactionRepository $transactionRepository,
     ): Response
     {
@@ -36,8 +36,8 @@ class ApiController extends AbstractController
 
     #[Route('/notifications', name: 'notifications', methods: ['GET'])]
     public function notifications(
-        Request $request,
-        TransactionRepository $transactionRepository,
+        Request                $request,
+        TransactionRepository  $transactionRepository,
         NotificationRepository $notificationRepository,
     ): Response
     {
@@ -53,8 +53,9 @@ class ApiController extends AbstractController
         return $this->json($result);
     }
 
-    private function notificationToArray(?Notification $notification) {
-        if(!$notification) {
+    private function notificationToArray(?Notification $notification)
+    {
+        if (!$notification) {
             return null;
         }
         return [
@@ -62,24 +63,25 @@ class ApiController extends AbstractController
             'id' => $notification->getId(),
             'created' => $notification->getCreated()->format('Y-m-d H:i:s'),
             'updated' => $notification->getUpdated()->format('Y-m-d H:i:s'),
-            'author' =>$this->userToArray($notification->getAuthor()),
+            'author' => $this->userToArray($notification->getAuthor()),
             'message' => $notification->getMessage(),
             'type' => $notification->getType(),
-            'transaction' => $this->transactionToArray($notification->getTransaction()),
+            'transaction' => $this->transactionToArray($notification->getType() === 'transaction_comment' ? $notification->getTransactionComment()->getTransaction() : $notification->getTransaction()),
             'transactionComment' => $this->commentToArray($notification->getTransactionComment()),
         ];
     }
 
-    private function transactionToArray(?Transaction $transaction) {
-        if(!$transaction) {
+    private function transactionToArray(?Transaction $transaction)
+    {
+        if (!$transaction) {
             return null;
         }
         return [
             'id' => $transaction->getId(),
             'created' => $transaction->getCreated()->format('Y-m-d H:i:s'),
             'updated' => $transaction->getUpdated()->format('Y-m-d H:i:s'),
-            'author' =>$this->userToArray($transaction->getAuthor()),
-            'user' =>$this->userToArray($transaction->getUser()),
+            'author' => $this->userToArray($transaction->getAuthor()),
+            'user' => $this->userToArray($transaction->getUser()),
             'value' => $transaction->getValue(),
             'status' => $transaction->getStatus(),
             'approvers' => array_map(fn($approver) => $this->userToArray($approver), $transaction->getApprovers()->toArray()),
@@ -87,8 +89,10 @@ class ApiController extends AbstractController
             'comments' => array_map(fn($c) => $this->commentToArray($c), $transaction->getTransactionComments()->toArray()),
         ];
     }
-    private function commentToArray(?TransactionComment $comment) {
-        if(!$comment) {
+
+    private function commentToArray(?TransactionComment $comment)
+    {
+        if (!$comment) {
             return null;
         }
         return [
@@ -100,9 +104,10 @@ class ApiController extends AbstractController
         ];
 
     }
+
     private function userToArray(?User $user)
     {
-        if(!$user) {
+        if (!$user) {
             return null;
         }
         return [
