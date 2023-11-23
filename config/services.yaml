@@ -6,6 +6,8 @@
 parameters:
     media_upload_dir: '%kernel.project_dir%/var/media/'
     timezone: '%env(APP_TIMEZONE)%'
+    telegram_api_url: '%env(CUSTOM_TELEGRAM_URL)%'
+    site_url: '%env(SITE_URL)%'
 
 
 services:
@@ -15,6 +17,8 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $mediaUploadDir: '%media_upload_dir%'
+            $telegramApiUrl: '%telegram_api_url%'
+            $siteUrl: '%site_url%'
 
 
     # makes classes in src/ available to be used as services
